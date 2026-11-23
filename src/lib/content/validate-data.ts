@@ -5,6 +5,9 @@ import { mythChecks } from "@data/myths";
 import { wordJourneys } from "@data/words";
 import { sharedRoots } from "@data/shared-roots";
 import { places, powers, REGIONS } from "@data/atlas";
+import { photos } from "@data/photos";
+import fs from "node:fs";
+import path from "node:path";
 import { getAllSources } from "./loader";
 
 const year = z.number().int().refine((y) => y !== 0, "There is no year 0");
@@ -97,6 +100,20 @@ export function validateDataFiles(): string[] {
     refs(`powers/${p.id}`, [p.eraId], eraIds, "era");
     refs(`powers/${p.id}`, p.capitalIds, placeIds, "place");
   }
+
+  // Photos: credit, allowed licence, file on disk, and every reference resolves.
+  // Free licences that allow reuse with credit. FAL = Free Art Licence (copyleft, like CC BY-SA).
+  const ALLOWED_LICENCE = /^(CC0|Public domain|CC BY(-SA)? \d\.\d|FAL)$/;
+  const photoIds = new Set(photos.map((p) => p.id));
+  unique("photos", photos.map((p) => p.id));
+  for (const p of photos) {
+    if (!p.author.trim()) problems.push(`photos/${p.id}: needs an author credit`);
+    if (!ALLOWED_LICENCE.test(p.licence)) problems.push(`photos/${p.id}: licence "${p.licence}" is not on the allowed list`);
+    if (!p.alt.trim() || !p.caption.trim()) problems.push(`photos/${p.id}: needs alt text and a caption`);
+    if (!p.sourceUrl.startsWith("https://commons.wikimedia.org/wiki/File:")) problems.push(`photos/${p.id}: sourceUrl must be a Commons file page`);
+    if (!fs.existsSync(path.join(process.cwd(), "public", p.src))) problems.push(`photos/${p.id}: file ${p.src} is missing`);
+  }
+  for (const e of eras) if (e.photoId && !photoIds.has(e.photoId)) problems.push(`eras/${e.id}: unknown photo "${e.photoId}"`);
 
   return problems;
 }

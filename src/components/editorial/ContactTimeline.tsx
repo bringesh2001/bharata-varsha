@@ -60,8 +60,8 @@ export function ContactTimeline({ items, currentSlug }: { items: ArticleFrontmat
         </div>
       </div>
       <figcaption className="mt-4 text-[13px] text-text-3">
-        Each bar is a period of known contact with India. Dates are approximate. Egypt, Persia, China and Southeast
-        Asia are being written.
+        Each bar is a period of known contact with India. Dates are approximate, and contact rarely stopped completely
+        between the bars.
       </figcaption>
     </figure>
   );

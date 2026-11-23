@@ -5,7 +5,8 @@ import { getListing, getSources } from "@/lib/content/queries";
 import { articleHref } from "@/lib/content/links";
 import { PageHero } from "@/components/editorial/PageHero";
 import { ContactTimeline } from "@/components/editorial/ContactTimeline";
-import { PhotoPlaceholder } from "@/components/editorial/PhotoPlaceholder";
+import { CreditedPhoto, PhotoCredit } from "@/components/editorial/CreditedPhoto";
+import { getPhoto } from "@data/photos";
 import { Pill } from "@/components/editorial/Badge";
 import { shortCitation } from "@/lib/sources/format";
 import { formatRange } from "@/lib/dates/format";
@@ -43,14 +44,24 @@ export default async function ConnectionsPage() {
             The stories
           </h2>
           <ul className="mt-10 grid gap-6 md:grid-cols-2">
-            {connections.map((c) => (
-              <li key={c.id} className="flex">
+            {connections.map((c) => {
+              const photo = getPhoto(c.connection?.photoId);
+              return (
+              <li key={c.id} className="flex flex-col gap-2">
                 <Link
                   href={articleHref(c)}
-                  className="group flex w-full flex-col overflow-hidden rounded-[6px] border border-border bg-paper hover:border-border-strong"
+                  className="group flex w-full flex-1 flex-col overflow-hidden rounded-[6px] border border-border bg-paper hover:border-border-strong"
                 >
                   {c.connection?.photoCaption && (
-                    <PhotoPlaceholder caption={c.connection.photoCaption} className="aspect-[16/7] rounded-none" />
+                    <CreditedPhoto
+                      photo={getPhoto(c.connection.photoId)}
+                      fallbackCaption={c.connection.photoCaption}
+                      className="aspect-[16/7]"
+                      rounded="rounded-none"
+                      showCaption={false}
+                      credit={false}
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                    />
                   )}
                   <span className="flex flex-1 flex-col p-5">
                     <span className="eyebrow">
@@ -63,8 +74,10 @@ export default async function ConnectionsPage() {
                     </span>
                   </span>
                 </Link>
+                {photo && <PhotoCredit photo={photo} />}
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       </section>

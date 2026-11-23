@@ -13,6 +13,10 @@ const PAGES = [
   "/ideas",
   "/ideas/indian-numerals",
   "/search?q=ashoka",
+  "/credits",
+  "/eras/indus-valley-civilisation",
+  "/lenses/medieval-rule",
+  "/connections/india-and-china",
 ];
 
 for (const path of PAGES) {

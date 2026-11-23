@@ -32,6 +32,7 @@ data/inventions.ts      Inventions cards          data/myths.ts     Myth-or-fact
 data/words.ts           Word journeys             data/schools.ts   Schools of thought
 data/shared-roots.ts    Shared roots (Connections)
 data/atlas.ts           Atlas powers, regions, capitals (no polygons; see below)
+data/photos.ts          Photo credits and licences      public/images/photos/  Photo files
 public/maps/            Natural Earth base map (public domain), clipped to South Asia
 src/app/                Routes (/, /eras, /atlas, /lenses, /connections, /ideas, /search)
 src/components/         layout/, editorial/, timeline/, atlas/
@@ -81,7 +82,7 @@ MapLibre's web worker into `public/vendor/`, so no extra build settings are need
 | M1 App scaffold | Done |
 | M2 Content foundation | Done: typed index, MDX, Zod validation, citations, Mauryan article |
 | M3 Editorial pages | Done: home, era template, TOC, sources, prev/next, related content |
-| M4 Lenses / Connections / Ideas | Done: listings and detail pages; 2 debates, 2 connections, 1 story, 12 inventions, 6 word journeys, 4 myth checks |
+| M4 Lenses / Connections / Ideas | Done: listings and detail pages; 7 debates, 6 connections, 1 story, 12 inventions, 6 word journeys, 4 myth checks |
 | M5 Atlas | Done: MapLibre map, period slider and presets, legend, text alternative, overlap chart, provenance, fallback |
 | M6 Polish + release | Done: sitemap, robots, metadata, Open Graph images, 404 and error pages, e2e + axe tests, CI, deploy docs |
 
@@ -95,10 +96,15 @@ MapLibre's web worker into `public/vendor/`, so no extra build settings are need
   of South Asia*), with provenance in `data/atlas.ts`.
 - **Source links go to search pages** (Open Library, Internet Archive, Google Scholar) rather than
   guessed record URLs. Replace them with exact records during review.
-- **Not yet written:** 11 of 12 era guides; Egypt, Persia, China and Southeast Asia connections;
-  five more debates from the prototype; the diamonds card (no source yet).
+- **Not yet written:** 7 of 12 era guides (Vedic, Mahajanapadas, Post-Mauryan, Early Medieval,
+  Delhi Sultanate, Vijayanagara, Independent India); the diamonds card (no source yet).
 - **Left out on purpose:** the prototype's AI-voting section and video/lecture cards with
   placeholder titles (they would need invented titles or a backend).
 - **shadcn/ui not installed.** The Style Guide's components are simple enough for plain
   Tailwind. Add shadcn when a complex primitive (dialog, combobox) is needed.
+- **Photos** are copies of freely licensed Wikimedia Commons files in `public/images/photos/`,
+  with author, licence and source in `data/photos.ts` (taken from the Commons API). Every photo
+  shows its credit, and `/credits` lists them all. Tests fail if a photo lacks a credit, has a
+  licence outside CC0 / public domain / CC BY / CC BY-SA / FAL, or its file is missing. No
+  database or storage service is needed at this scale.
 - Fonts: Gloock is bundled in `assets/fonts/` (SIL OFL, licence alongside) for social images.

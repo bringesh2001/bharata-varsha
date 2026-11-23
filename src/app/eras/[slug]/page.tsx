@@ -14,7 +14,8 @@ import { getEraPageContent, getRelatedForEra } from "@/lib/content/queries";
 import { RelatedArticles } from "@/components/editorial/RelatedArticles";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { EraProgress } from "@/components/timeline/EraProgress";
-import { PhotoPlaceholder } from "@/components/editorial/PhotoPlaceholder";
+import { CreditedPhoto } from "@/components/editorial/CreditedPhoto";
+import { getPhoto } from "@data/photos";
 import { StatusNotice } from "@/components/editorial/StatusNotice";
 import { TableOfContents } from "@/components/editorial/TableOfContents";
 import { ArticleBody } from "@/components/editorial/ArticleBody";
@@ -78,12 +79,12 @@ export default async function EraPage({ params }: PageProps<"/eras/[slug]">) {
                 </dl>
               )}
             </div>
-            <figure>
-              <PhotoPlaceholder caption={era.photoCaption} className="aspect-[5/4]" />
-              <figcaption className="mt-2 text-[13px] text-text-3">
-                {fm?.photoCredit ?? "Photo to come. Every photo will carry its source and licence here."}
-              </figcaption>
-            </figure>
+            <CreditedPhoto
+              photo={getPhoto(era.photoId)}
+              fallbackCaption={era.photoCaption}
+              className="aspect-[5/4]"
+              priority
+            />
           </div>
         </div>
       </section>

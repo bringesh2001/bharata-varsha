@@ -25,8 +25,10 @@ export type Era = {
   end: number | null;
   datePrecision: DatePrecision;
   summary: string;
-  /** Caption for the photo placeholder until a credited photo is added. */
+  /** Caption for the striped placeholder, used when no cleared photo exists. */
   photoCaption: string;
+  /** Id of a credited photo in data/photos.ts. */
+  photoId?: string;
 };
 
 export const ERA_GROUP_LABELS: Record<EraGroup, string> = {
@@ -49,6 +51,7 @@ export const eras: readonly Era[] = [
     datePrecision: "approximate",
     summary: "Planned cities, drains, seals, and a script nobody has deciphered yet.",
     photoCaption: "Great Bath, Mohenjo-daro",
+    photoId: "great-bath-mohenjo-daro",
   },
   {
     id: "era-vedic",
@@ -62,6 +65,7 @@ export const eras: readonly Era[] = [
     datePrecision: "approximate",
     summary: "The Vedas are composed and society and ritual take shape in the Gangetic plains.",
     photoCaption: "Rigveda manuscript page",
+    photoId: "rigveda-manuscript",
   },
   {
     id: "era-mahajanapadas",
@@ -75,6 +79,7 @@ export const eras: readonly Era[] = [
     datePrecision: "approximate",
     summary: "Sixteen great kingdoms, early cities, and new faiths.",
     photoCaption: "Mahabodhi Temple, Bodh Gaya",
+    photoId: "mahabodhi-temple",
   },
   {
     id: "era-mauryan",
@@ -88,6 +93,7 @@ export const eras: readonly Era[] = [
     datePrecision: "exact",
     summary: "The first empire to cover most of the subcontinent; Ashoka and his edicts.",
     photoCaption: "Lion Capital, Sarnath",
+    photoId: "lion-capital-sarnath",
   },
   {
     id: "era-post-mauryan",
@@ -101,6 +107,7 @@ export const eras: readonly Era[] = [
     datePrecision: "approximate",
     summary: "Trade with Rome, Gandhara art, and Tamil Sangam poetry.",
     photoCaption: "Gandhara Buddha",
+    photoId: "gandhara-buddha",
   },
   {
     id: "era-gupta",
@@ -114,6 +121,7 @@ export const eras: readonly Era[] = [
     datePrecision: "approximate",
     summary: "Called a “golden age”: Aryabhata, Kalidasa, and temple art.",
     photoCaption: "Ajanta cave paintings",
+    photoId: "ajanta-padmapani",
   },
   {
     id: "era-early-medieval",
@@ -127,6 +135,7 @@ export const eras: readonly Era[] = [
     datePrecision: "approximate",
     summary: "Big regional powers, a Chola navy, and Nalanda at its peak.",
     photoCaption: "Brihadisvara Temple, Thanjavur",
+    photoId: "brihadisvara-temple",
   },
   {
     id: "era-delhi-sultanate",
@@ -140,6 +149,7 @@ export const eras: readonly Era[] = [
     datePrecision: "exact",
     summary: "Five dynasties rule from Delhi; new styles of building and governing.",
     photoCaption: "Qutb Minar, Delhi",
+    photoId: "qutb-minar",
   },
   {
     id: "era-vijayanagara",
@@ -153,6 +163,7 @@ export const eras: readonly Era[] = [
     datePrecision: "exact",
     summary: "A great southern empire and the Deccan sultanates.",
     photoCaption: "Vittala Temple, Hampi",
+    photoId: "vittala-temple-chariot",
   },
   {
     id: "era-mughal",
@@ -166,6 +177,7 @@ export const eras: readonly Era[] = [
     datePrecision: "exact",
     summary: "Babur to Aurangzeb and beyond; the Marathas rise.",
     photoCaption: "Taj Mahal, Agra",
+    photoId: "taj-mahal",
   },
   {
     id: "era-colonial",
@@ -179,6 +191,7 @@ export const eras: readonly Era[] = [
     datePrecision: "exact",
     summary: "From Plassey to 1857 to the freedom struggle.",
     photoCaption: "Victoria Terminus, Mumbai",
+    photoId: "victoria-terminus",
   },
   {
     id: "era-independent",
@@ -192,5 +205,6 @@ export const eras: readonly Era[] = [
     datePrecision: "exact",
     summary: "Partition, the Constitution, and the Republic.",
     photoCaption: "Parliament House, New Delhi",
+    photoId: "sansad-bhavan",
   },
 ];

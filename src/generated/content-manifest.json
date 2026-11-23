@@ -1,14 +1,27 @@
 {
   "era": [
-    "mauryan-empire"
+    "colonial-india",
+    "gupta-empire",
+    "indus-valley-civilisation",
+    "mauryan-empire",
+    "mughal-empire"
   ],
   "lens": [
+    "age-of-the-vedas",
+    "dividing-the-past",
     "drain-of-wealth",
-    "vedic-origins"
+    "medieval-rule",
+    "revolt-of-1857",
+    "vedic-origins",
+    "writing-history"
   ],
   "connection": [
+    "india-and-china",
+    "india-and-egypt",
     "india-and-mesopotamia",
-    "india-and-rome"
+    "india-and-persia",
+    "india-and-rome",
+    "india-and-southeast-asia"
   ],
   "idea": [
     "indian-numerals"

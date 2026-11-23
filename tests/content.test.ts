@@ -108,3 +108,21 @@ describe("structured data files", () => {
     }
   });
 });
+
+describe("photos", () => {
+  it("every connection photoId refers to a real photo", async () => {
+    const { photos } = await import("@data/photos");
+    const ids = new Set(photos.map((p) => p.id));
+    for (const a of validateAllContent().articles) {
+      const id = a.frontmatter.connection?.photoId;
+      if (id) expect(ids.has(id), `${a.frontmatter.id} -> ${id}`).toBe(true);
+    }
+  });
+});
+
+describe("YAML comma trap", () => {
+  it("rejects a key fact whose unquoted comma created an extra key", () => {
+    const bad = validFrontmatter.replace("status: draft", "status: draft\nkeyFacts:\n  - { label: Best known, value: A, B }");
+    expect(() => parseArticle(bad, "content/eras/test-era.mdx")).toThrow(ContentValidationError);
+  });
+});

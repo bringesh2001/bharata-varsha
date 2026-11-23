@@ -5,7 +5,7 @@ import { articleHref } from "@/lib/content/links";
 import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const sections = ["", "/atlas", "/lenses", "/connections", "/ideas"];
+  const sections = ["", "/atlas", "/lenses", "/connections", "/ideas", "/credits"];
   const articles = (await Promise.all((["lens", "connection", "idea"] as const).map((t) => getListing(t)))).flat();
   return [
     ...sections.map((path) => ({ url: `${SITE_URL}${path}` })),

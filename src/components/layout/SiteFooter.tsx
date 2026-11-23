@@ -13,6 +13,10 @@ export function SiteFooter() {
           ·{" "}
           <Link href="/lenses" className="link">
             How historians disagree
+          </Link>{" "}
+          ·{" "}
+          <Link href="/credits" className="link">
+            Image credits
           </Link>
         </p>
       </div>

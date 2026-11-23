@@ -28,17 +28,23 @@ export const sourceSchema = z.object({
 
 export type Source = z.infer<typeof sourceSchema>;
 
-export const keyFactSchema = z.object({
-  label: z.string().min(1),
-  value: z.string().min(1),
-});
+// .strict(): in YAML flow maps, an unquoted comma inside a value silently creates an extra
+// key (e.g. "value: A, B" → value "A" plus key "B"). Rejecting unknown keys catches that.
+export const keyFactSchema = z
+  .object({
+    label: z.string().min(1),
+    value: z.string().min(1),
+  })
+  .strict();
 
-export const rulerSchema = z.object({
-  name: z.string().min(1),
-  start: year,
-  end: year,
-  datePrecision: z.enum(["exact", "approximate", "disputed"]).default("approximate"),
-});
+export const rulerSchema = z
+  .object({
+    name: z.string().min(1),
+    start: year,
+    end: year,
+    datePrecision: z.enum(["exact", "approximate", "disputed"]).default("approximate"),
+  })
+  .strict();
 
 /** One side of a debate on the Lenses pages. Labelled by its argument, not by nationality. */
 export const lensViewSchema = z.object({
@@ -66,6 +72,8 @@ export const connectionBlockSchema = z.object({
   /** Periods of known contact, for the timeline. */
   contactPeriods: z.array(contactPeriodSchema).min(1),
   photoCaption: z.string().optional(),
+  /** Id of a credited photo in data/photos.ts. */
+  photoId: z.string().optional(),
   events: z
     .array(z.object({ date: z.string().min(1), text: z.string().min(1), sourceId: slug }))
     .min(1),

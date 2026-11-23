@@ -9,7 +9,8 @@ import { StatusNotice } from "@/components/editorial/StatusNotice";
 import { ArticleBody } from "@/components/editorial/ArticleBody";
 import { SourceList } from "@/components/editorial/SourceList";
 import { EraLinks } from "@/components/editorial/EraLinks";
-import { PhotoPlaceholder } from "@/components/editorial/PhotoPlaceholder";
+import { CreditedPhoto } from "@/components/editorial/CreditedPhoto";
+import { getPhoto } from "@data/photos";
 import { ContactTimeline } from "@/components/editorial/ContactTimeline";
 
 export async function generateStaticParams() {
@@ -81,12 +82,9 @@ export default async function ConnectionPage({ params }: PageProps<"/connections
             <h1 className="mt-2 font-display text-[clamp(40px,5vw,56px)] leading-[1.02]">{fm.title}</h1>
             <p className="mt-4 text-[17px] text-text-2">{fm.summary}</p>
             {c.photoCaption && (
-              <figure className="mt-6">
-                <PhotoPlaceholder caption={c.photoCaption} className="aspect-[4/3]" />
-                <figcaption className="mt-2 text-[13px] text-text-3">
-                  Photo to come, with its source and licence.
-                </figcaption>
-              </figure>
+              <div className="mt-6">
+                <CreditedPhoto photo={getPhoto(c.photoId)} fallbackCaption={c.photoCaption} className="aspect-[4/3]" sizes="340px" />
+              </div>
             )}
           </div>
 
