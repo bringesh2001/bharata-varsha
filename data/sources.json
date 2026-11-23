@@ -1,0 +1,98 @@
+[
+  {
+    "id": "thapar-1961",
+    "title": "Aśoka and the Decline of the Mauryas",
+    "author": "Romila Thapar",
+    "year": 1961,
+    "sourceType": "book",
+    "publisher": "Oxford University Press",
+    "url": "https://openlibrary.org/search?q=Asoka+and+the+Decline+of+the+Mauryas",
+    "siteName": "openlibrary.org",
+    "level": "scholarly",
+    "note": "The classic study of Ashoka's reign and the edicts; the source of the long-running debate on what dhamma meant."
+  },
+  {
+    "id": "thapar-1987",
+    "title": "The Mauryas Revisited",
+    "author": "Romila Thapar",
+    "year": 1987,
+    "sourceType": "book",
+    "publisher": "K.P. Bagchi & Co.",
+    "url": "https://openlibrary.org/search?q=The+Mauryas+Revisited+Thapar",
+    "siteName": "openlibrary.org",
+    "level": "scholarly",
+    "note": "Thapar's later lectures, which revise her own earlier picture of a highly centralised state."
+  },
+  {
+    "id": "thapar-2002",
+    "title": "Early India: From the Origins to AD 1300",
+    "author": "Romila Thapar",
+    "year": 2002,
+    "sourceType": "book",
+    "publisher": "Allen Lane",
+    "url": "https://openlibrary.org/search?q=Early+India+From+the+Origins+to+AD+1300",
+    "siteName": "openlibrary.org",
+    "level": "deeper",
+    "note": "A readable survey; the Mauryan chapters are a good next step after this page."
+  },
+  {
+    "id": "singh-2008",
+    "title": "A History of Ancient and Early Medieval India: From the Stone Age to the 12th Century",
+    "author": "Upinder Singh",
+    "year": 2008,
+    "sourceType": "book",
+    "publisher": "Pearson Longman",
+    "url": "https://openlibrary.org/search?q=A+History+of+Ancient+and+Early+Medieval+India+Upinder+Singh",
+    "siteName": "openlibrary.org",
+    "level": "deeper",
+    "note": "A textbook that sets out the evidence (inscriptions, coins, archaeology, texts) alongside the narrative."
+  },
+  {
+    "id": "lahiri-2015",
+    "title": "Ashoka in Ancient India",
+    "author": "Nayanjot Lahiri",
+    "year": 2015,
+    "sourceType": "book",
+    "publisher": "Harvard University Press",
+    "url": "https://openlibrary.org/search?q=Ashoka+in+Ancient+India+Lahiri",
+    "siteName": "openlibrary.org",
+    "level": "deeper",
+    "note": "A biography of Ashoka built closely on the inscriptions and the places where they were set up."
+  },
+  {
+    "id": "olivelle-2013",
+    "title": "King, Governance, and Law in Ancient India: Kauṭilya's Arthaśāstra",
+    "author": "Patrick Olivelle (translator)",
+    "year": 2013,
+    "sourceType": "primary-translation",
+    "publisher": "Oxford University Press",
+    "url": "https://openlibrary.org/search?q=King+Governance+and+Law+in+Ancient+India+Olivelle",
+    "siteName": "openlibrary.org",
+    "level": "source",
+    "note": "A modern English translation of the Arthashastra, with an introduction on when and how the text was composed."
+  },
+  {
+    "id": "hultzsch-1925",
+    "title": "Inscriptions of Asoka (Corpus Inscriptionum Indicarum, Vol. I, new edition)",
+    "author": "E. Hultzsch",
+    "year": 1925,
+    "sourceType": "primary-translation",
+    "publisher": "Clarendon Press, for the Government of India",
+    "url": "https://archive.org/search?query=Inscriptions+of+Asoka+Hultzsch",
+    "siteName": "archive.org",
+    "level": "source",
+    "note": "The standard older edition of the edicts, with texts and English translations. Out of copyright in many countries; check before reusing."
+  },
+  {
+    "id": "mccrindle-1877",
+    "title": "Ancient India as Described by Megasthenes and Arrian",
+    "author": "J. W. McCrindle (translator)",
+    "year": 1877,
+    "sourceType": "primary-translation",
+    "publisher": "Trübner & Co.",
+    "url": "https://archive.org/search?query=Ancient+India+as+Described+by+Megasthenes+and+Arrian",
+    "siteName": "archive.org",
+    "level": "source",
+    "note": "English translation of the surviving fragments of Megasthenes' Indica, as quoted by later Greek and Roman writers."
+  }
+]

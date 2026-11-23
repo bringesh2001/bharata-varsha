@@ -1,26 +1,184 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Bharata Varsha design tokens — from the Style Guide v1 (November 2026).
+ * The site is a single light theme with occasional Ink (dark) sections.
+ */
+@theme {
+  /* Core */
+  --color-ink: #1a1a2e;
+  --color-stone: #f4f1ea;
+  --color-paper: #ffffff;
+  --color-madder: #a63d2a;
+  --color-indigo: #2e3a8c;
+
+  /* Neutrals */
+  --color-text-2: #4a4a58;
+  --color-text-3: #5a5a66;
+  --color-border: #d9d2c3;
+  --color-border-strong: #c9c0ae;
+  --color-divider: #ede8dd;
+  --color-placeholder: #e4ded2;
+
+  /* Status & evidence */
+  --color-positive: #2e6b5e;
+  --color-caution: #9a6512;
+  --color-negative: #a63d2a;
+
+  /* Era groups (data, stripes and marks only — never body text) */
+  --color-era-ancient: #a63d2a;
+  --color-era-classical: #d69a3c;
+  --color-era-medieval: #2e6b5e;
+  --color-era-modern: #2e3a8c;
+
+  /* Extra chart series */
+  --color-plum: #7a4e8c;
+  --color-sea: #3e7cb1;
+
+  /* On dark (Ink) sections */
+  --color-on-dark: #d4d4de;
+  --color-on-dark-muted: #b9b9c8;
+  --color-on-dark-accent: #e9a27a;
+  --color-on-dark-indigo: #7c86d6;
+  --color-on-dark-line: #44445e;
+
+  /* Fonts (CSS variables are set by next/font in layout.tsx) */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-gloock), Georgia, serif;
+  --font-deva: var(--font-noto-deva), serif;
+
+  --radius-button: 4px;
+  --radius-card: 6px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-stone);
+  color: var(--color-ink);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-stone);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+:lang(hi) {
+  font-family: var(--font-deva);
+  font-weight: 500;
+}
+
+/* Visible focus states for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-indigo);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.bg-ink :focus-visible {
+  outline-color: var(--color-on-dark-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@layer components {
+  .container-page {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1280px;
+    padding-inline: 16px;
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 32px;
+    }
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-madder);
+  }
+  .bg-ink .eyebrow {
+    color: var(--color-on-dark-accent);
+  }
+
+  .section {
+    padding-block: 72px;
+  }
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 88px;
+    }
+  }
+
+  .link {
+    color: var(--color-indigo);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Photo placeholder: diagonal stripes until real, credited photos arrive */
+  .photo-placeholder {
+    background-color: var(--color-placeholder);
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0 14px,
+      rgba(201, 192, 174, 0.35) 14px 28px
+    );
+  }
+
+  /* Long-form article typography (MDX body) */
+  .prose-article {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--color-ink);
+  }
+  .prose-article > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-article h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.2vw, 36px);
+    line-height: 1.1;
+    margin-top: 2.2em;
+    scroll-margin-top: 24px;
+  }
+  .prose-article h3 {
+    font-weight: 600;
+    font-size: 19px;
+    margin-top: 1.6em;
+  }
+  .prose-article ul {
+    list-style: disc;
+    padding-left: 1.25em;
+  }
+  .prose-article ol {
+    list-style: decimal;
+    padding-left: 1.25em;
+  }
+  .prose-article li + li {
+    margin-top: 0.35em;
+  }
+  .prose-article a {
+    color: var(--color-indigo);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-article em {
+    font-style: italic;
+  }
+  .prose-article strong {
+    font-weight: 600;
+  }
 }
