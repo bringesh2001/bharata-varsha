@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Gloock, Instrument_Sans, Noto_Serif_Devanagari } from "next/font/google";
+import { Gloock, Instrument_Sans, Noto_Naskh_Arabic, Noto_Serif_Devanagari } from "next/font/google";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
@@ -11,6 +11,13 @@ const notoDeva = Noto_Serif_Devanagari({
   variable: "--font-noto-deva",
   weight: "500",
   subsets: ["devanagari"],
+});
+/** Only for script comparisons such as the numerals story (Style Guide §02). */
+const notoArabic = Noto_Naskh_Arabic({
+  variable: "--font-noto-arabic",
+  weight: "500",
+  subsets: ["arabic"],
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -24,7 +31,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${gloock.variable} ${instrumentSans.variable} ${notoDeva.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${gloock.variable} ${instrumentSans.variable} ${notoDeva.variable} ${notoArabic.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a

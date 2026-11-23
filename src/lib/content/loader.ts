@@ -3,7 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { eras } from "@data/eras";
 import sourcesJson from "@data/sources.json";
-import { articleFrontmatterSchema, sourceSchema, type ArticleFrontmatter, type Source } from "./schema";
+import { articleFrontmatterSchema, frontmatterSourceIds, sourceSchema, type ArticleFrontmatter, type Source } from "./schema";
 import { slugify } from "./slugify";
 
 export type ContentType = ArticleFrontmatter["contentType"];
@@ -81,8 +81,10 @@ export function findBrokenReferences(
   for (const id of fm.sourceIds) if (!known.sourceIds.has(id)) problems.push(`unknown source id "${id}"`);
   for (const id of fm.relatedArticleIds) if (!known.articleIds.has(id)) problems.push(`unknown related article id "${id}"`);
 
-  // Every <Cite id="..."/> in the body must be listed in the article's sourceIds.
+  // Every <Cite id="..."/> in the body, and every source used in structured
+  // frontmatter blocks, must be listed in the article's sourceIds.
   const listed = new Set(fm.sourceIds);
+  for (const id of frontmatterSourceIds(fm)) if (!listed.has(id)) problems.push(`source "${id}" is used in frontmatter but not listed in sourceIds`);
   for (const m of body.matchAll(/<Cite\s+[^>]*id=["']([^"']+)["']/g)) {
     if (!listed.has(m[1])) problems.push(`<Cite id="${m[1]}"> is not listed in sourceIds`);
   }
@@ -146,6 +148,16 @@ export function validateAllContent(): { articles: Article[]; problems: string[] 
     for (const p of findBrokenReferences(a, known)) problems.push(`${a.filePath}: ${p}`);
   }
   return { articles, problems };
+}
+
+/** Articles of a type in listing order. */
+export function getArticles(type: ContentType): Article[] {
+  return loadArticles(type).sort((a, b) => a.frontmatter.order - b.frontmatter.order || a.frontmatter.title.localeCompare(b.frontmatter.title));
+}
+
+/** Lens, connection and idea articles that mention an era — the "related" links on era pages. */
+export function getArticlesForEra(eraId: string): Article[] {
+  return (["lens", "connection", "idea"] as const).flatMap((t) => getArticles(t)).filter((a) => a.frontmatter.eraIds.includes(eraId));
 }
 
 /** The era article for an era, if one has been written. Drafts are included and flagged in the UI. */

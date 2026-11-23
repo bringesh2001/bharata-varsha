@@ -46,6 +46,7 @@
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-gloock), Georgia, serif;
   --font-deva: var(--font-noto-deva), serif;
+  --font-arabic: var(--font-noto-arabic), serif;
 
   --radius-button: 4px;
   --radius-card: 6px;
@@ -67,6 +68,10 @@ body {
 
 :lang(hi) {
   font-family: var(--font-deva);
+  font-weight: 500;
+}
+:lang(ar) {
+  font-family: var(--font-arabic);
   font-weight: 500;
 }
 

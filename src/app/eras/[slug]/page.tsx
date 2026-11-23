@@ -10,7 +10,8 @@ import {
   getEraBySlug,
   getEras,
 } from "@/lib/content/eras";
-import { getEraPageContent } from "@/lib/content/queries";
+import { getEraPageContent, getRelatedForEra } from "@/lib/content/queries";
+import { RelatedArticles } from "@/components/editorial/RelatedArticles";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { EraProgress } from "@/components/timeline/EraProgress";
 import { PhotoPlaceholder } from "@/components/editorial/PhotoPlaceholder";
@@ -47,6 +48,7 @@ export default async function EraPage({ params }: PageProps<"/eras/[slug]">) {
   const eras = getEras();
   const { previous, next } = getAdjacentEras(era);
   const content = await getEraPageContent(era.id);
+  const related = await getRelatedForEra(era.id);
   const fm = content?.article.frontmatter;
 
   return (
@@ -99,6 +101,7 @@ export default async function EraPage({ params }: PageProps<"/eras/[slug]">) {
                     extra={[
                       ...(fm.rulers.length ? [{ id: "at-a-glance", text: "The era at a glance" }] : []),
                       { id: "sources", text: "Sources and further reading" },
+                      ...(related.length ? [{ id: "related", text: "Go deeper on this era" }] : []),
                     ]}
                   />
                 </aside>
@@ -168,6 +171,14 @@ export default async function EraPage({ params }: PageProps<"/eras/[slug]">) {
                 See a finished example: the Mauryan Empire <span aria-hidden="true">→</span>
               </Link>
             </p>
+          </div>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section className="section border-t border-border bg-paper">
+          <div className="container-page">
+            <RelatedArticles items={related} title="Go deeper on this era" />
           </div>
         </section>
       )}

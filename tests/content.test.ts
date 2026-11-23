@@ -92,3 +92,19 @@ describe("headings and slugs", () => {
     expect(slugify("Aśoka & the Mauryas?")).toBe("asoka-and-the-mauryas");
   });
 });
+
+describe("structured data files", () => {
+  it("are valid and every source, era and place reference exists", async () => {
+    const { validateDataFiles } = await import("@/lib/content/validate-data");
+    expect(validateDataFiles()).toEqual([]);
+  });
+
+  it("the content manifest matches the MDX files (run `npm run content:manifest` if this fails)", async () => {
+    const manifest = (await import("@/generated/content-manifest.json")).default as Record<string, string[]>;
+    const { articles } = validateAllContent();
+    for (const type of ["era", "lens", "connection", "idea"] as const) {
+      const slugs = articles.filter((a) => a.frontmatter.contentType === type).map((a) => a.frontmatter.slug).sort();
+      expect(manifest[type]).toEqual(slugs);
+    }
+  });
+});

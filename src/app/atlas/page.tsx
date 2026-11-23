@@ -1,29 +1,87 @@
 import type { Metadata } from "next";
-import { SectionPlaceholder } from "@/components/editorial/SectionPlaceholder";
+import { BASEMAP_CREDIT, places, powers } from "@data/atlas";
+import { PageHero } from "@/components/editorial/PageHero";
+import { AtlasExplorer } from "@/components/atlas/AtlasExplorer";
 
 export const metadata: Metadata = {
   title: "Atlas — who ruled where, and when",
-  description: "A historical map of the subcontinent with a period selector, built from vetted, credited boundary data.",
+  description:
+    "Move through 2,500 years of South Asian history: which powers held which regions, where their capitals were, and who overlapped with whom.",
   alternates: { canonical: "/atlas" },
 };
 
 export default function AtlasPage() {
   return (
-    <SectionPlaceholder
-      eyebrow="Atlas"
-      title="Who ruled where, and when"
-      lead="Move through the centuries and see which powers held which regions, which overlapped, and where to read more about each."
-      milestone="milestone M5"
-      plans={[
-        { title: "One map, many periods", text: "A period selector from about 600 BCE to 1947, showing the major powers of each time." },
-        { title: "Who overlapped with whom", text: "A chart of dynasties side by side, because many ruled at the same time, not one after another." },
-        { title: "A text version of every map", text: "Each map view is also given as a plain list of powers and regions, for screen readers and slow connections." },
-      ]}
-      rules={[
-        "Borders come only from vetted historical datasets, never from guesses, and every layer shows its source and licence.",
-        "Each layer is labelled “approximate representation” where the evidence is uncertain; pre-modern borders were rarely fixed lines.",
-        "Every power on the map links to its era page.",
-      ]}
-    />
+    <>
+      <PageHero
+        eyebrow="Atlas"
+        title="Who ruled where, and when"
+        lead="Drag the slider or press play to watch powers rise and fall across the subcontinent, 600 BCE to 1947."
+      />
+      <section className="border-y border-border bg-stone pb-20">
+        <div className="container-page">
+          <AtlasExplorer initialYear={-250} />
+        </div>
+      </section>
+
+      <section className="section bg-paper" aria-labelledby="about-map-heading">
+        <div className="container-page grid gap-10 lg:grid-cols-2">
+          <div>
+            <h2 id="about-map-heading" className="font-display text-[clamp(30px,3.6vw,40px)] leading-[1.1]">
+              About this map
+            </h2>
+            <div className="mt-4 space-y-3 text-[16px] text-text-2">
+              <p>
+                <strong className="text-ink">Why no borders?</strong> Pre-modern states rarely had fixed borders, and
+                drawing them needs carefully sourced boundary data. We will not draw territory from guesswork. Until a
+                vetted, licensed boundary dataset is added, the map shows capitals and the text lists the broad regions
+                each power held.
+              </p>
+              <p>
+                <strong className="text-ink">How to read the regions.</strong> The six regions are deliberately broad.
+                A power is listed in a region if it held a large part of it at its height, not throughout its life.
+              </p>
+              <p>
+                <strong className="text-ink">Dates.</strong> Start and end dates are approximate and some are disputed;
+                they mark when a power was a major force, not the first or last mention of a ruling family.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-[6px] border border-border p-5">
+            <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-text-3">Provenance</h3>
+            <dl className="mt-3 space-y-3 text-[15px]">
+              <div>
+                <dt className="font-semibold">Base map</dt>
+                <dd className="text-text-2">
+                  <a href={BASEMAP_CREDIT.url} target="_blank" rel="noopener noreferrer" className="link">
+                    {BASEMAP_CREDIT.name}
+                  </a>{" "}
+                  <span className="text-text-3">
+                    {BASEMAP_CREDIT.siteName} <span aria-hidden="true">↗</span>
+                  </span>
+                  . Licence: {BASEMAP_CREDIT.licence}. Modern coastlines and rivers; ancient coasts and river courses
+                  differed.
+                </dd>
+              </div>
+              <div>
+                <dt className="font-semibold">Powers and dates ({powers.length})</dt>
+                <dd className="text-text-2">
+                  Compiled for this site from conventional dates in survey histories. Draft: not yet checked line by line
+                  against a reference atlas. The planned check is Joseph E. Schwartzberg (ed.), <em>A Historical Atlas
+                  of South Asia</em> (University of Chicago Press, 1978).
+                </dd>
+              </div>
+              <div>
+                <dt className="font-semibold">Capitals ({places.length})</dt>
+                <dd className="text-text-2">
+                  Placed at the modern town or site, to about one kilometre. Several powers moved capital; the main ones
+                  are shown.
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

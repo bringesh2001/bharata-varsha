@@ -17,9 +17,8 @@ export function Cite({ id, sources }: { id: string; sources: Source[] }) {
       <a
         href={`#source-${id}`}
         className="text-[12px] font-semibold text-indigo no-underline hover:underline"
-        aria-label={`Source ${index + 1}: ${shortCitation(source)}`}
       >
-        [{index + 1}]
+        [{index + 1}]<span className="sr-only">: source, {shortCitation(source)}</span>
       </a>
     </sup>
   );

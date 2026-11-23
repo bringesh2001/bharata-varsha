@@ -11,17 +11,26 @@
     "test:watch": "vitest",
     "typecheck": "next typegen && tsc --noEmit",
     "validate:content": "vitest run tests/content.test.ts",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "content:manifest": "node scripts/build-content-manifest.mjs",
+    "predev": "npm run content:manifest && npm run maplibre:worker",
+    "prebuild": "npm run content:manifest && npm run maplibre:worker",
+    "pretest": "npm run content:manifest",
+    "test:e2e": "playwright test",
+    "maplibre:worker": "node scripts/copy-maplibre-worker.mjs"
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.1.1",
     "gray-matter": "^4.0.3",
+    "maplibre-gl": "^6.19.0",
     "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/turbopack": "4.3.3",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^8.0.0",
@@ -39,5 +48,8 @@
     "typescript": "^5",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }
