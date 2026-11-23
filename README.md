@@ -31,7 +31,8 @@ data/sources.json       Every source, cited by stable id
 data/inventions.ts      Inventions cards          data/myths.ts     Myth-or-fact checks
 data/words.ts           Word journeys             data/schools.ts   Schools of thought
 data/shared-roots.ts    Shared roots (Connections)
-data/atlas.ts           Atlas powers, regions, capitals (no polygons; see below)
+data/atlas.ts           Atlas powers, regions, capitals
+public/maps/borders.geojson  Historical borders from Cliopatria (CC BY 4.0), built by scripts/build-atlas-borders.mjs
 data/photos.ts          Photo credits and licences      public/images/photos/  Photo files
 public/maps/            Natural Earth base map (public domain), clipped to South Asia
 src/app/                Routes (/, /eras, /atlas, /lenses, /connections, /ideas, /search)
@@ -83,17 +84,20 @@ MapLibre's web worker into `public/vendor/`, so no extra build settings are need
 | M2 Content foundation | Done: typed index, MDX, Zod validation, citations, Mauryan article |
 | M3 Editorial pages | Done: home, era template, TOC, sources, prev/next, related content |
 | M4 Lenses / Connections / Ideas | Done: listings and detail pages; 7 debates, 6 connections, 1 story, 12 inventions, 6 word journeys, 4 myth checks |
-| M5 Atlas | Done: MapLibre map, period slider and presets, legend, text alternative, overlap chart, provenance, fallback |
+| M5 Atlas | Done: MapLibre map with Cliopatria borders, period slider and presets, legend, text alternative, overlap chart, provenance, fallback |
 | M6 Polish + release | Done: sitemap, robots, metadata, Open Graph images, 404 and error pages, e2e + axe tests, CI, deploy docs |
 
 ## Decisions and known gaps
 
 - **All content is `draft`** until a person reviews it. It was written with LLM assistance from
   real, cited works, but it has not been checked line by line against those works.
-- **No territory polygons on the Atlas.** The build guide forbids borders drawn from guesses. The
-  map shows capitals, and the text lists the broad regions each power held. Add polygons later
-  from a vetted, licensed dataset (for example one derived from Schwartzberg's *Historical Atlas
-  of South Asia*), with provenance in `data/atlas.ts`.
+- **Atlas borders come from Cliopatria** (Seshat Global History Databank, release v0.2.1,
+  CC BY 4.0; Bennett et al., *Scientific Data*, 2025). We never draw borders ourselves. To update:
+  download a newer release's `cliopatria.geojson`, then run
+  `node --max-old-space-size=6144 scripts/build-atlas-borders.mjs <file> <release-tag>`. The script
+  maps each Atlas power to Cliopatria polity names, clips and simplifies the shapes, records the
+  changes made (as the licence requires), and fails if a polity name has disappeared. The credit
+  appears on the map, in the Atlas provenance panel and in the text list.
 - **Source links go to search pages** (Open Library, Internet Archive, Google Scholar) rather than
   guessed record URLs. Replace them with exact records during review.
 - **Not yet written:** 7 of 12 era guides (Vedic, Mahajanapadas, Post-Mauryan, Early Medieval,

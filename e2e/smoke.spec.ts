@@ -108,6 +108,7 @@ test("atlas: the map draws and Play advances the year", async ({ page }) => {
   await page.goto("/atlas");
   await expect(page.locator(".maplibregl-canvas")).toBeVisible({ timeout: 15_000 });
   await expect(page.locator(".maplibregl-marker").first()).toBeVisible();
+  await expect(page.getByRole("complementary").getByText("Border shown (approximate)").first()).toBeVisible();
   await expect(page.locator("output")).toHaveText("250 BCE");
   await page.getByRole("button", { name: "Play through the years" }).click();
   await expect(page.locator("output")).not.toHaveText("250 BCE", { timeout: 3_000 });

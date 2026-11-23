@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BASEMAP_CREDIT, places, powers } from "@data/atlas";
+import { BORDER_SOURCE } from "@/lib/atlas";
 import { PageHero } from "@/components/editorial/PageHero";
 import { AtlasExplorer } from "@/components/atlas/AtlasExplorer";
 
@@ -32,10 +33,10 @@ export default function AtlasPage() {
             </h2>
             <div className="mt-4 space-y-3 text-[16px] text-text-2">
               <p>
-                <strong className="text-ink">Why no borders?</strong> Pre-modern states rarely had fixed borders, and
-                drawing them needs carefully sourced boundary data. We will not draw territory from guesswork. Until a
-                vetted, licensed boundary dataset is added, the map shows capitals and the text lists the broad regions
-                each power held.
+                <strong className="text-ink">How to read the borders.</strong> Pre-modern states rarely had fixed
+                borders: power faded with distance, and many areas paid tribute rather than being ruled directly. The
+                shaded areas are one scholarly reconstruction, from the Cliopatria dataset, and are approximate. Where
+                Cliopatria has no border for a power in a given year, only its capital is shown.
               </p>
               <p>
                 <strong className="text-ink">How to read the regions.</strong> The six regions are deliberately broad.
@@ -61,6 +62,24 @@ export default function AtlasPage() {
                   </span>
                   . Licence: {BASEMAP_CREDIT.licence}. Modern coastlines and rivers; ancient coasts and river courses
                   differed.
+                </dd>
+              </div>
+              <div>
+                <dt className="font-semibold">Borders</dt>
+                <dd className="text-text-2">
+                  <a href={BORDER_SOURCE.url} target="_blank" rel="noopener noreferrer" className="link">
+                    Cliopatria
+                  </a>{" "}
+                  <span className="text-text-3">
+                    github.com <span aria-hidden="true">↗</span>
+                  </span>
+                  , release {BORDER_SOURCE.release}, from the Seshat Global History Databank (J. S. Bennett and
+                  others, <em>Scientific Data</em>, 2025). Licence:{" "}
+                  <a href={BORDER_SOURCE.licenceUrl} target="_blank" rel="noopener noreferrer" className="link">
+                    {BORDER_SOURCE.licence}
+                  </a>
+                  . Changes made for this site: {BORDER_SOURCE.changes} Cliopatria&rsquo;s own years are used for each
+                  border, so they can differ slightly from the dates in our list.
                 </dd>
               </div>
               <div>

@@ -126,3 +126,15 @@ describe("YAML comma trap", () => {
     expect(() => parseArticle(bad, "content/eras/test-era.mdx")).toThrow(ContentValidationError);
   });
 });
+
+describe("atlas borders", () => {
+  it("every Atlas power has Cliopatria border coverage, and no unknown powers appear", async () => {
+    const { powers } = await import("@data/atlas");
+    const { borderCoverage, BORDER_SOURCE } = await import("@/lib/atlas");
+    const coverage = borderCoverage();
+    const ids = new Set(powers.map((p) => p.id));
+    for (const id of Object.keys(coverage)) expect(ids.has(id), id).toBe(true);
+    for (const p of powers) expect(coverage[p.id]?.length ?? 0, p.id).toBeGreaterThan(0);
+    expect(BORDER_SOURCE.licence).toBe("CC BY 4.0");
+  });
+});

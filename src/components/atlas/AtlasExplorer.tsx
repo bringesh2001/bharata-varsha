@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { eras } from "@data/eras";
 import { ATLAS_PRESETS, ATLAS_RANGE, powers } from "@data/atlas";
-import { activePowers, capitalsOf, colourFor, powersByRegion, regionLabel, sliderToYear } from "@/lib/atlas";
+import { activePowers, BORDER_SOURCE, capitalsOf, colourFor, hasBorder, powersByRegion, regionLabel, sliderToYear } from "@/lib/atlas";
 import { formatRange, formatYear } from "@/lib/dates/format";
 
 // MapLibre is large: load it only on this page, only in the browser.
@@ -48,12 +48,12 @@ export function AtlasExplorer({ initialYear = -250 }: { initialYear?: number }) 
         <div className="overflow-hidden rounded-[6px] border border-border bg-paper">
           <div className="relative h-[420px] sm:h-[520px]">
             <p className="sr-only">
-              Map of South Asia in {label}, showing the capitals of the powers listed beside it. The same information is in
-              the list and region panels.
+              Map of South Asia in {label}, showing the approximate territory and capitals of the powers listed beside it.
+              The same information is in the list and region panels.
             </p>
-            <AtlasMap active={active} colours={colours} />
-            <p className="pointer-events-none absolute left-3 top-3 rounded-[2px] bg-paper/90 px-2 py-1 text-[12px] text-text-2">
-              Capitals only. Borders are not drawn until vetted boundary data is added.
+            <AtlasMap year={year} active={active} colours={colours} />
+            <p className="pointer-events-none absolute left-3 top-3 max-w-[70%] rounded-[2px] bg-paper/90 px-2 py-1 text-[12px] text-text-2">
+              Approximate borders from Cliopatria. Pre-modern borders were rarely fixed lines.
             </p>
           </div>
           <div className="border-t border-border p-4 sm:p-5">
@@ -142,6 +142,9 @@ export function AtlasExplorer({ initialYear = -250 }: { initialYear?: number }) 
                     {formatRange(p.start, p.end, p.datePrecision)}
                     {p.datePrecision === "disputed" && " (dates disputed)"} · {p.regions.map(regionLabel).join(", ")}
                   </p>
+                  <p className="text-[13px] text-text-3">
+                    {hasBorder(p.id, year) ? "Border shown (approximate)" : "No border data for this year; capital only"}
+                  </p>
                   {capitals.length > 0 && (
                     <p className="text-[13px] text-text-3">
                       Capital{capitals.length > 1 ? "s" : ""}: {capitals.map((c) => (c.modernName ? `${c.name} (${c.modernName})` : c.name)).join(", ")}
@@ -157,7 +160,11 @@ export function AtlasExplorer({ initialYear = -250 }: { initialYear?: number }) 
             })}
           </ul>
           <p className="mt-auto border-t border-divider pt-4 text-[13px] text-text-3">
-            Dates are approximate and borders were rarely fixed. Where historians disagree, the era page explains the debate.
+            Dates are approximate and borders were rarely fixed. Borders:{" "}
+            <a href={BORDER_SOURCE.url} target="_blank" rel="noopener noreferrer" className="link">
+              Cliopatria
+            </a>{" "}
+            ({BORDER_SOURCE.licence}). Where historians disagree, the era page explains the debate.
           </p>
         </aside>
       </div>

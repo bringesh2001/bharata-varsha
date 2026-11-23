@@ -22,12 +22,23 @@ const style = (origin: string): maplibregl.StyleSpecification => ({
     land: { type: "geojson", data: `${origin}/maps/land.geojson` },
     lakes: { type: "geojson", data: `${origin}/maps/lakes.geojson` },
     rivers: { type: "geojson", data: `${origin}/maps/rivers.geojson` },
+    // Historical borders: Cliopatria (CC BY 4.0), see scripts/build-atlas-borders.mjs.
+    borders: { type: "geojson", data: `${origin}/maps/borders.geojson` },
   },
   layers: [
     { id: "water", type: "background", paint: { "background-color": "#DCE2E6" } },
     { id: "land", type: "fill", source: "land", paint: { "fill-color": "#F4F1EA" } },
     { id: "lakes", type: "fill", source: "lakes", paint: { "fill-color": "#DCE2E6" } },
     { id: "rivers", type: "line", source: "rivers", paint: { "line-color": "#3E7CB1", "line-opacity": 0.45, "line-width": 1.2 } },
+    // Hidden until the year filter is applied.
+    { id: "borders-fill", type: "fill", source: "borders", filter: ["==", ["get", "powerId"], "__none__"], paint: { "fill-color": "#1A1A2E", "fill-opacity": 0.22 } },
+    {
+      id: "borders-line",
+      type: "line",
+      source: "borders",
+      filter: ["==", ["get", "powerId"], "__none__"],
+      paint: { "line-color": "#1A1A2E", "line-width": 1.5, "line-dasharray": [3, 2] },
+    },
   ],
 });
 
@@ -35,11 +46,20 @@ const style = (origin: string): maplibregl.StyleSpecification => ({
  * The Atlas map. Loaded lazily (see AtlasExplorer) so MapLibre only downloads on this page.
  * Purely visual: everything it shows is also listed in text beside it.
  */
-export default function AtlasMap({ active, colours }: { active: Power[]; colours: Map<string, string> }) {
+export default function AtlasMap({
+  year,
+  active,
+  colours,
+}: {
+  year: number;
+  active: Power[];
+  colours: Map<string, string>;
+}) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MLMap | null>(null);
   const markers = useRef<Marker[]>([]);
   const [failed, setFailed] = useState(false);
+  const [styleReady, setStyleReady] = useState(false);
 
   useEffect(() => {
     if (!container.current) return;
@@ -55,7 +75,10 @@ export default function AtlasMap({ active, colours }: { active: Power[]; colours
           [50, -5],
           [108, 45],
         ],
-        attributionControl: { compact: true, customAttribution: "Base map: Natural Earth (public domain)" },
+        attributionControl: {
+          compact: true,
+          customAttribution: "Borders: Cliopatria, Seshat (CC BY 4.0) · Base map: Natural Earth (public domain)",
+        },
         dragRotate: false,
         pitchWithRotate: false,
       });
@@ -67,6 +90,7 @@ export default function AtlasMap({ active, colours }: { active: Power[]; colours
     instance.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
     instance.touchZoomRotate.disableRotation();
     instance.on("error", (e) => console.warn("Atlas map:", e.error?.message));
+    instance.on("load", () => setStyleReady(true));
     map.current = instance;
     return () => {
       markers.current.forEach((m) => m.remove());
@@ -75,6 +99,27 @@ export default function AtlasMap({ active, colours }: { active: Power[]; colours
       map.current = null;
     };
   }, []);
+
+  // Show only the border snapshots for the selected year, coloured like each power's capital dot.
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !styleReady) return;
+    const ids = active.map((p) => p.id);
+    const filter: maplibregl.FilterSpecification = [
+      "all",
+      ["<=", ["get", "from"], year],
+      [">=", ["get", "to"], year],
+      ["in", ["get", "powerId"], ["literal", ids]],
+    ];
+    const colour: maplibregl.ExpressionSpecification | string =
+      ids.length > 0
+        ? (["match", ["get", "powerId"], ...ids.flatMap((id) => [id, colours.get(id) ?? "#1A1A2E"]), "#1A1A2E"] as unknown as maplibregl.ExpressionSpecification)
+        : "#1A1A2E";
+    m.setFilter("borders-fill", filter);
+    m.setFilter("borders-line", filter);
+    m.setPaintProperty("borders-fill", "fill-color", colour);
+    m.setPaintProperty("borders-line", "line-color", colour);
+  }, [year, active, colours, styleReady]);
 
   // Redraw capital markers when the year (and so the set of powers) changes.
   useEffect(() => {

@@ -1,4 +1,5 @@
 import { places, powers, REGIONS, type Place, type Power, type RegionId } from "@data/atlas";
+import borderIndex from "@/generated/border-coverage.json";
 
 /** Chart series order from the Style Guide: Madder, Ochre, Green, Indigo, Plum, Sea blue. */
 export const SERIES = ["#A63D2A", "#D69A3C", "#2E6B5E", "#2E3A8C", "#7A4E8C", "#3E7CB1"] as const;
@@ -29,4 +30,26 @@ export function capitalsOf(power: Power): Place[] {
 
 export function regionLabel(id: RegionId): string {
   return REGIONS.find((r) => r.id === id)?.label ?? id;
+}
+
+/** Provenance of the border layer (Cliopatria release, licence, our changes). */
+export const BORDER_SOURCE = {
+  source: borderIndex.source,
+  release: borderIndex.release,
+  url: borderIndex.url,
+  licence: borderIndex.licence,
+  licenceUrl: borderIndex.licenceUrl,
+  changes: borderIndex.changes,
+};
+
+// JSON imports type tuples as number[][]; the build script always writes [from, to] pairs.
+const coverage = borderIndex.coverage as unknown as Record<string, [number, number][]>;
+
+/** Whether the map has a Cliopatria border for this power in this year. */
+export function hasBorder(powerId: string, year: number): boolean {
+  return (coverage[powerId] ?? []).some(([from, to]) => from <= year && year <= to);
+}
+
+export function borderCoverage(): Record<string, [number, number][]> {
+  return coverage;
 }

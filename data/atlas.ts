@@ -1,11 +1,11 @@
 /**
  * Atlas data.
  *
- * DELIBERATELY NO TERRITORY POLYGONS. The build guide forbids drawing borders
- * from unverified guesses. Instead we record:
- *   - each power's dates and the broad regions it held at its height (schematic), and
- *   - its capitals as points (modern locations of the sites, rounded to ~1 km).
- * Polygon layers can be added later from a vetted, licensed dataset.
+ * We record each power's dates, the broad regions it held at its height (schematic),
+ * and its capitals as points (modern locations of the sites, rounded to ~1 km).
+ * Territory borders are NOT drawn by us: they come from the Cliopatria dataset
+ * (CC BY 4.0), converted by scripts/build-atlas-borders.mjs into public/maps/borders.geojson.
+ * Keep the power ids in that script in sync with this file.
  *
  * Years: BCE negative, CE positive. Status: draft, awaiting editorial review.
  */
